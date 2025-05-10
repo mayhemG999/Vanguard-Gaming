@@ -11,6 +11,9 @@ from datetime import datetime
 BOT_TOKEN = "gapi_H3AelwC+zSla9NJ8dCggWiHEfaTTcF0TcR8tohUO1QCErd+e67nQOeW5WJ0TTT8CAAxgJjfGqYtD8TQ7B8mnQw=="
 OWNER_ID = "dwr5DOW4"
 
+DEFAULT_EMOTE_ID = 2790195  # Your default emote ID
+
+
 CONFIG_FILE = "config.json"
 BACKUP_FILE = "backup.json"
 
@@ -50,6 +53,23 @@ def can_configure(ctx):
 @bot.event
 async def on_ready():
     print(f"🟢 Bot is online, bot name: {bot.user.name}")
+    try:
+        await bot.set_status(content="Vanguard Gaming", emote=DEFAULT_EMOTE_ID)
+        print("✅ Status set successfully!")
+    except Exception as e:
+        print(f"❌ Failed to set status: {e}")
+
+@bot.command()
+async def setstatus(ctx, *, status: str):
+    """Change the bot's custom status."""
+    try:
+        await bot.set_status(content=status, emote=DEFAULT_EMOTE_ID)
+        await ctx.send(f"✅ Status updated to: `{status}`")
+    except Exception as e:
+        await ctx.send(f"❌ Failed to update status: {e}")
+
+
+
 
 @bot.event
 async def on_member_join(member):
@@ -83,7 +103,7 @@ async def on_message(message):
             description="Hello, I am Vanguard.\nI help keep your server safe!",
             color=guilded.Color.blue()
         )
-        embed.add_field(name="Need help?", value="[Support Server](https://guilded.gg/SpearheadVanguard)", inline=False)
+        embed.add_field(name="Need help?", value="[Support Server](https://guilded.gg/Vanguardgaming)", inline=False)
         embed.add_field(name="Creator", value="Made by [Mayhem](https://www.guilded.gg/u/Mayhem999)", inline=False)
         await message.channel.send(embed=embed)
 
